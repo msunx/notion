@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 获取URL参数
     const urlParams = new URLSearchParams(window.location.search);
-    const title = urlParams.get('title');
+    get_daka_data()
 
-    // 如果有title参数，更新页面标题
+    const title = urlParams.get('title');
     if (title) {
         document.getElementById('page-title').textContent = title;
     }
-
     let firstDay = getFirstDayOfYear()
     const lastDayOfYear = getLastDayOfYear()
     while (firstDay <= lastDayOfYear) {
@@ -70,4 +68,13 @@ function formatDate(date) {
 
 function areDatesEqual(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate();
+}
+
+function get_daka_data() {
+    fetch('http://127.0.0.1:8728/notion/test')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => console.error('There was a problem with the fetch operation:', error));
 }
