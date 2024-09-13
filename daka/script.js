@@ -1,17 +1,23 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    get_daka_data()
+let kada_data;
 
+render();
+
+async function render() {
+    const urlParams = new URLSearchParams(window.location.search);
     const title = urlParams.get('title');
     if (title) {
         document.getElementById('page-title').textContent = title;
     }
+
+    kada_data = await get_daka_data();
+    console.log(kada_data);
+
     let firstDay = getFirstDayOfYear()
     const lastDayOfYear = getLastDayOfYear()
     while (firstDay <= lastDayOfYear) {
         firstDay = renderOneWeek(firstDay, lastDayOfYear)
     }
-});
+}
 
 function renderOneWeek(startDay, lastDayOfYear) {
     const startWeekDay = getDayOfWeek(startDay)
@@ -22,7 +28,8 @@ function renderOneWeek(startDay, lastDayOfYear) {
     container.appendChild(grid)
     for (let i = 0; i < 7; i++) {
         const gridItem = document.createElement('div');
-        gridItem.setAttribute('date', formatDate(currentDay))
+        const dateStr = formatDate(currentDay)
+        gridItem.setAttribute('date', dateStr)
         gridItem.classList.add('grid-item');
         if (i < startWeekDay - 1) {
             gridItem.classList.add('blank');
@@ -32,6 +39,9 @@ function renderOneWeek(startDay, lastDayOfYear) {
         }
         if (areDatesEqual(currentDay, new Date())) {
             gridItem.classList.add('today');
+        }
+        if (kada_data.includes(dateStr)) {
+            gridItem.classList.add('active');
         }
         gridItem.addEventListener('click', function () {
             gridItem.classList.toggle('active');
@@ -70,11 +80,16 @@ function areDatesEqual(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate();
 }
 
-function get_daka_data() {
-    fetch('http://127.0.0.1:8728/notion/test')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(error => console.error('There was a problem with the fetch operation:', error));
+async function get_daka_data() {
+    try {
+        const response = await fetch('http://127.0.0.1:8728/notion/daka/get');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;  // 重新抛出错误以便调用者可以处理
+    }
 }
