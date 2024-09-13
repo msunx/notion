@@ -10,7 +10,7 @@ async function render() {
     }
 
     kada_data = await get_daka_data();
-    console.log(kada_data);
+    render_daka_count()
 
     let firstDay = getFirstDayOfYear()
     const lastDayOfYear = getLastDayOfYear()
@@ -30,6 +30,7 @@ function renderOneWeek(startDay, lastDayOfYear) {
         const gridItem = document.createElement('div');
         const dateStr = formatDate(currentDay)
         gridItem.setAttribute('date', dateStr)
+        gridItem.setAttribute('title', dateStr);  // 添加这一行
         gridItem.classList.add('grid-item');
         if (i < startWeekDay - 1) {
             gridItem.classList.add('blank');
@@ -92,4 +93,8 @@ async function get_daka_data() {
         console.error('There was a problem with the fetch operation:', error);
         throw error;  // 重新抛出错误以便调用者可以处理
     }
+}
+
+function render_daka_count() {
+    document.getElementById('daka-count').textContent = `打卡总天数: ${kada_data.length}`
 }
