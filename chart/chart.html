@@ -4,85 +4,84 @@
 </div>
 
 <script>
-    get_data()
-    let ctx = document.getElementById('lineChart').getContext('2d');
-    const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const x = urlParams.get('x')
+    const y = urlParams.get('y')
+    const title = urlParams.get('title')
 
-    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, 'rgba(75, 192, 192, 0.3)');
-    gradient.addColorStop(1, 'rgba(75, 192, 192, 0)');
+    render()
 
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: '测试',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: true,
-            borderColor: 'rgb(75, 192, 192)',
-            // backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            backgroundColor: gradient, // 使用渐变填充
-            borderWidth: 2,
-            tension: 0.2
-        }]
-    };
+    async function render() {
+        const database_data = await get_database();
+        render_chart(database_data)
+    }
 
-    new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '图表'
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false // 隐藏X轴网格线
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false // 隐藏Y轴网格线
-                    },
-                    // beginAtZero: true 是否从零开始
-                }
-            }
-        }
-    });
+    function render_chart(database_data) {
+        let ctx = document.getElementById('lineChart').getContext('2d');
+        const labels = database_data['x']
 
-    function get_data() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const apikey = urlParams.get('apikey');
-        const databaseId = urlParams.get('databaseId')
-        const url = `https://api.notion.com/v1/databases/${databaseId}/query`;
+        let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(75, 192, 192, 0.3)');
+        gradient.addColorStop(1, 'rgba(75, 192, 192, 0)');
 
-        const options = {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apikey}`,
-                'Content-Type': 'application/json',
-                'Notion-Version': '2022-06-28'
-            },
-            body: JSON.stringify({
-                // filter: {
-                // property: "Last ordered",
-                // date: {
-                //     past_week: {}
-                // }
-                // }
-            })
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '测试',
+                data: database_data['y'],
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: gradient, // 使用渐变填充
+                borderWidth: 2,
+                tension: 0.2
+            }]
         };
 
-        fetch(url, options)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
+        new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false // 隐藏X轴网格线
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false // 隐藏Y轴网格线
+                        },
+                        // beginAtZero: true 是否从零开始
+                    }
+                }
+            }
+        });
+    }
+
+    async function get_database() {
+        try {
+            const response = await fetch(`http://127.0.0.1:8728/notion/chart/database/get?id=${id}&x=${x}&y=${y}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data.data;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            throw error;  // 重新抛出错误以便调用者可以处理
+        }
     }
 </script>
