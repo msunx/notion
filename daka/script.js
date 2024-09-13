@@ -1,14 +1,12 @@
 let kada_data;
+let title;
 
 render();
 
 async function render() {
     const urlParams = new URLSearchParams(window.location.search);
-    const title = urlParams.get('title');
-    if (title) {
-        document.getElementById('page-title').textContent = title;
-    }
-
+    title = urlParams.get('title');
+    document.getElementById('page-title').textContent = title;
     kada_data = await get_daka_data();
     render_daka_count()
 
@@ -45,7 +43,8 @@ function renderOneWeek(startDay, lastDayOfYear) {
             gridItem.classList.add('active');
         }
         gridItem.addEventListener('click', function () {
-            gridItem.classList.toggle('active');
+            const isActivate = gridItem.classList.toggle('active');
+            sendPostRequest(dateStr, isActivate);
         });
         grid.appendChild(gridItem);
         currentDay.setDate(currentDay.getDate() + 1);
@@ -83,7 +82,7 @@ function areDatesEqual(date1, date2) {
 
 async function get_daka_data() {
     try {
-        const response = await fetch('http://127.0.0.1:8728/notion/daka/get');
+        const response = await fetch('http://127.0.0.1:8728/notion/daka/get?title=' + title);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -98,3 +97,18 @@ async function get_daka_data() {
 function render_daka_count() {
     document.getElementById('daka-count').textContent = `打卡总天数: ${kada_data.length}`
 }
+
+function sendPostRequest(dateStr, isActivate) {
+    try {
+        const response = fetch('http://127.0.0.1:8728/notion/daka/do', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json',
+            }, body: JSON.stringify({
+                date: dateStr, title: title, isActivate: isActivate
+            }),
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
