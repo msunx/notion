@@ -7,15 +7,15 @@ body {
 
 h1 {
     font-size: 14px; /* 调整标题大小 */
-    font-weight: 300; /* 设置字体为较细 */
+    font-weight: 400; /* 设置字体为较细 */
     margin-bottom: 18px; /* 标题与内容之间的间距 */
-    margin-left: 18px;
+    margin-left: 20px;
     /*color: #525252; !* 字体颜色 *!*/
 }
 
 .daka-count {
     font-size: 12px; /* 调整标题大小 */
-    font-weight: 300; /* 设置字体为较细 */
+    font-weight: 400; /* 设置字体为较细 */
     margin-left: 18px;
     /*color: #525252; !* 字体颜色 *!*/
 }
@@ -23,13 +23,13 @@ h1 {
 .container {
     display: flex;
     align-items: flex-start;
-    margin-left: 18px;
+    margin-left: 20px;
 }
 
 .weekdays {
     display: flex;
     flex-direction: column;
-    margin-right: 5px;
+    margin-right: 7px;
 }
 
 .weekdays div {
@@ -37,7 +37,7 @@ h1 {
     line-height: 12px; /* 垂直居中 */
     font-size: 10px; /* 字体大小调整 */
     /*color: #525252; !* 字体颜色 *!*/
-    font-weight: 300; /* 设置字体为较细 */
+    font-weight: 400; /* 设置字体为较细 */
 }
 
 .grid {
@@ -60,7 +60,7 @@ h1 {
 }
 
 .grid-item.today {
-    background-color: #ec6d71;
+    border-bottom: 4px solid #ec6d71;
 }
 
 .grid-item.blank {
