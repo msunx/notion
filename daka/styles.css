@@ -3,6 +3,7 @@ body {
     background-color: white;
     margin: 0;
     padding: 10px; /* 添加一些内边距，使内容不紧贴边缘 */
+    padding-left: 50px; /* 将左边距增加到20px */
 }
 
 h1 {
