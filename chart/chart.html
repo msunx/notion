@@ -17,22 +17,34 @@
         render_chart(database_data)
     }
 
+    function getColorByHash(title) { // 根据title哈希值获取颜色
+        const hash = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const colors = [
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)'
+        ];
+        return colors[hash % colors.length]; // 根据哈希值选择颜色
+    }
+
     function render_chart(database_data) {
         let ctx = document.getElementById('lineChart').getContext('2d');
-        const labels = database_data['x']
+        const labels = database_data['x'];
 
         let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(75, 192, 192, 0.3)');
-        gradient.addColorStop(1, 'rgba(75, 192, 192, 0)');
-
+        gradient.addColorStop(0, getColorByHash(title)); // 使用哈希值颜色
+        gradient.addColorStop(1, getColorByHash(title).replace(/0\.5/, '0')); // 使用同一色系的透明颜色
+        console.log(getColorByHash(title))
         const data = {
             labels: labels,
             datasets: [{
                 label: '测试',
                 data: database_data['y'],
                 fill: true,
-                borderColor: 'rgb(75, 192, 192)',
-                // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: getColorByHash(title), // 使用哈希值颜色
                 backgroundColor: gradient, // 使用渐变填充
                 borderWidth: 2,
                 tension: 0.2
