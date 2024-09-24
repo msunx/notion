@@ -2,23 +2,25 @@ body {
     font-family: Arial, sans-serif;
     background-color: white;
     margin: 0;
-    /* padding: 8px; 添加一些内边距，使内容不紧贴边缘 */
     padding-left: 5px;
 }
 
 h1 {
-    font-size: 14px; /* 调整标题大小 */
-    margin-bottom: 10px; /* 标题与内容之间的间距 */
+    font-size: 14px;
+    /* 调整标题大小 */
+    margin-bottom: 10px;
+    /* 标题与内容之间的间距 */
     margin-left: 20px;
-    font-weight: bold; /* 字体加粗 */
-    /*color: #525252; !* 字体颜色 *!*/
+    font-weight: bold;
+    /* 字体加粗 */
 }
 
 .daka-count {
-    font-size: 12px; /* 调整标题大小 */
-    font-weight: 400; /* 设置字体为较细 */
+    font-size: 12px;
+    /* 调整标题大小 */
+    font-weight: 400;
+    /* 设置字体为较细 */
     margin-left: 20px;
-    /*color: #525252; !* 字体颜色 *!*/
 }
 
 .container {
@@ -27,23 +29,9 @@ h1 {
     margin-left: 20px;
 }
 
-.weekdays {
-    display: flex;
-    flex-direction: column;
-    margin-right: 7px;
-}
-
-.weekdays div {
-    height: 11px; /* 与grid-item的高度一致 */
-    line-height: 12px; /* 垂直居中 */
-    font-size: 10px; /* 字体大小调整 */
-    /*color: #525252; !* 字体颜色 *!*/
-    font-weight: 400; /* 设置字体为较细 */
-}
-
 .grid {
     display: grid;
-    grid-template-rows: repeat(7, 11.5px); /* 7行 */
+    grid-template-rows: repeat(7, 11.5px);
     gap: 3px;
     margin: 2.5px;
 }
@@ -67,4 +55,3 @@ h1 {
 .grid-item.blank {
     background-color: white;
 }
-
