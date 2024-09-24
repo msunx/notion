@@ -2,56 +2,74 @@ body {
     font-family: Arial, sans-serif;
     background-color: white;
     margin: 0;
-    padding-left: 5px;
+    padding: 10px;
+    /* 增加整体内边距 */
 }
 
 h1 {
-    font-size: 14px;
-    /* 调整标题大小 */
-    margin-bottom: 10px;
-    /* 标题与内容之间的间距 */
-    margin-left: 20px;
+    font-size: 1.7vw;
+    /* 使用vw单位使标题大小随屏幕宽度变化 */
+    margin-bottom: 1.2vw;
+    margin-left: 9.5vw;
     font-weight: bold;
-    /* 字体加粗 */
 }
 
 .daka-count {
-    font-size: 12px;
-    /* 调整标题大小 */
+    font-size: 1vw;
+    /* 使用vw单位使文字大小随屏幕宽度变化 */
     font-weight: 400;
-    /* 设置字体为较细 */
-    margin-left: 20px;
+    margin-left: 9.5vw;
 }
 
 .container {
     display: flex;
-    align-items: flex-start;
-    margin-left: 20px;
+    flex-wrap: wrap;
+    /* 允许网格换行 */
+    justify-content: center;
+    /* 居中对齐 */
+    margin: 0 auto;
+    /* 居中容器 */
+    max-width: 95vw;
+    /* 限制最大宽度 */
 }
 
 .grid {
     display: grid;
-    grid-template-rows: repeat(7, 11.5px);
-    gap: 3px;
-    margin: 2.5px;
+    grid-template-columns: repeat(auto-fit, minmax(1vw, 1fr));
+    /* 自适应列数 */
+    gap: 0.25vw;
+    /* 使用vw单位设置间隙 */
+    margin: 0.25vw;
 }
 
 .grid-item {
-    width: 11.5px;
-    height: 11.5px;
+    width: 100%;
+    /* 宽度填满网格单元 */
+    padding-bottom: 100%;
+    /* 创建正方形 */
     background-color: #f1f3f5;
     border-radius: 20%;
     cursor: pointer;
+    position: relative;
+    /* 为绝对定位的子元素准备 */
 }
 
 .grid-item.active {
     background-color: #60a664;
 }
 
-.grid-item.today {
-    border-bottom: 4px solid #ec6d71;
+.grid-item.today::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
+    height: 10%;
+    background-color: #ec6d71;
+    border-radius: 10px;
 }
 
 .grid-item.blank {
-    background-color: white;
+    background-color: transparent;
+    /* 改为透明而不是白色 */
 }
