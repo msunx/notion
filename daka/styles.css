@@ -24,8 +24,6 @@ h1 {
 .container {
     display: flex;
     flex-wrap: wrap;
-    /* 允许网格换行 */
-    /* justify-content: center; */
     /* 居中对齐 */
     margin: 0 3vw;
     /* 居中容器 */
