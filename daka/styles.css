@@ -10,7 +10,7 @@ h1 {
     font-size: 1.7vw;
     /* 使用vw单位使标题大小随屏幕宽度变化 */
     margin-bottom: 1vw;
-    margin-left: 3.1vw;
+    margin-left: 2.9vw;
     font-weight: bold;
 }
 
@@ -18,14 +18,14 @@ h1 {
     font-size: 1vw;
     /* 使用vw单位使文字大小随屏幕宽度变化 */
     font-weight: 400;
-    margin-left: 3.1vw;
+    margin-left: 2.9vw;
 }
 
 .container {
     display: flex;
     flex-wrap: wrap;
     /* 居中对齐 */
-    margin: 0 3vw;
+    margin: 0 2.8vw;
     /* 居中容器 */
     max-width: 100vw;
     /* 限制最大宽度 */
@@ -33,7 +33,7 @@ h1 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1.2vw, 1.5fr));
+    grid-template-columns: repeat(auto-fit, minmax(1.23vw, 1.5fr));
     /* 自适应列数 */
     gap: 0.25vw;
     /* 使用vw单位设置间隙 */
